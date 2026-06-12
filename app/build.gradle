@@ -143,18 +143,19 @@ android {
         resValue "bool", "enableSiteSettingsShortcut", twaManifest.enableSiteSettingsShortcut
         resValue "string", "orientation", twaManifest.orientation
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            signingConfig signingConfigs.release
-        }
-    }
     signingConfigs {
         release {
             storeFile file(rootProject.projectDir.absolutePath + '/keystore/debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
