@@ -71,7 +71,7 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS to open the Web version of the PWA instead of the TWA, as it
             // will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://sadchonks.com/manifest.json'
+            resValue "string", "webManifestUrl", 'https://mx.7lzh.com:4343/static/manifest.json'
         
 
         
@@ -204,9 +204,8 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    
-        implementation 'com.google.androidbrowserhelper:locationdelegation:1.0.1'
-    
-        implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.3.0'
-    
+    implementation 'com.google.androidbrowserhelper:locationdelegation:1.0.1'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.3.0'
+    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'com.google.android.gms:play-services-basement:18.1.0'
 }
