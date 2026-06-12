@@ -50,12 +50,15 @@ jobs:
       - name: build
         run: |
           chmod +x gradlew
+          set +e
           ./gradlew assembleRelease --no-daemon --stacktrace > build.log 2>&1
-          echo "--- exit code $? ---"
-          echo "--- last 100 lines ---"
+          EXIT=$?
+          echo "--- exit code $EXIT ---"
+          echo "--- last 100 lines of build.log ---"
           tail -100 build.log
           echo "--- find errors ---"
           grep -E "(error|FAILURE|Compilation|Where:|What went wrong)" build.log | head -20
+          exit $EXIT
       - name: upload-log
         if: always()
         uses: actions/upload-artifact@v4
