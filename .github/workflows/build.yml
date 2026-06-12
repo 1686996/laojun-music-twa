@@ -11,7 +11,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '11'
       - name: android-sdk
         uses: android-actions/setup-android@v3
         with:
@@ -50,21 +50,9 @@ jobs:
       - name: build
         run: |
           chmod +x gradlew
-          set +e
-          # 先输出当前 build.gradle 供调试
-          echo '======= app/build.gradle ======='
-          cat app/build.gradle
-          echo '======= END ======='
-          ./gradlew assembleRelease --no-daemon --stacktrace > build.log 2>&1
-          EXIT=$?
+          ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
+          EXIT=${PIPESTATUS[0]}
           echo "--- exit code $EXIT ---"
-          # 输出 build.log 头部 80 行 + 末尾 50 行
-          echo "--- head 80 lines ---"
-          head -80 build.log
-          echo "--- last 50 lines ---"
-          tail -50 build.log
-          echo "--- find error/Where/What/FAILURE ---"
-          grep -nE "(error|FAILURE|Where:|What went wrong|>.*\.(gradle|groovy):[0-9]+)" build.log | head -30
           exit $EXIT
       - name: upload-log
         if: always()
