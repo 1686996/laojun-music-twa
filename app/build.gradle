@@ -46,12 +46,11 @@ def twaManifest = [
 ]
 
 android {
-    namespace 'com.myrte.musicmanager'
-    compileSdkVersion 33
+    compileSdkVersion 32
     defaultConfig {
         applicationId "com.myrte.musicmanager"
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0.0.0"
 
@@ -166,12 +165,13 @@ task generateShorcutsFile {
 preBuild.dependsOn(generateShorcutsFile)
 
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.3.0'
     implementation 'com.google.androidbrowserhelper:locationdelegation:1.0.1'
     implementation 'androidx.browser:browser:1.4.0'
-    implementation 'com.google.android.gms:play-services-basement:18.1.0'
 }
