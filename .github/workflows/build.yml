@@ -51,13 +51,20 @@ jobs:
         run: |
           chmod +x gradlew
           set +e
+          # 先输出当前 build.gradle 供调试
+          echo '======= app/build.gradle ======='
+          cat app/build.gradle
+          echo '======= END ======='
           ./gradlew assembleRelease --no-daemon --stacktrace > build.log 2>&1
           EXIT=$?
           echo "--- exit code $EXIT ---"
-          echo "--- last 100 lines of build.log ---"
-          tail -100 build.log
-          echo "--- find errors ---"
-          grep -E "(error|FAILURE|Compilation|Where:|What went wrong)" build.log | head -20
+          # 输出 build.log 头部 80 行 + 末尾 50 行
+          echo "--- head 80 lines ---"
+          head -80 build.log
+          echo "--- last 50 lines ---"
+          tail -50 build.log
+          echo "--- find error/Where/What/FAILURE ---"
+          grep -nE "(error|FAILURE|Where:|What went wrong|>.*\.(gradle|groovy):[0-9]+)" build.log | head -30
           exit $EXIT
       - name: upload-log
         if: always()
