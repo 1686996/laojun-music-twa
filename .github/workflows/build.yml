@@ -24,19 +24,20 @@ jobs:
           keytool -genkey -v -keystore app/keystore/debug.keystore -storepass android -keypass android -alias androiddebugkey -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -keysize 2048 -validity 10000
       - name: signing
         run: |
-          cat >> app/build.gradle << 'EOF'
-android.signingConfigs {
-    release {
-        storeFile file('../keystore/debug.keystore')
-        storePassword 'android'
-        keyAlias 'androiddebugkey'
-        keyPassword 'android'
-    }
-}
-android.buildTypes.release {
-    signingConfig android.signingConfigs.release
-}
-EOF
+          cat > /tmp/signing.gradle << 'INTERNAL_EOF'
+          android.signingConfigs {
+              release {
+                  storeFile file('../keystore/debug.keystore')
+                  storePassword 'android'
+                  keyAlias 'androiddebugkey'
+                  keyPassword 'android'
+              }
+          }
+          android.buildTypes.release {
+              signingConfig android.signingConfigs.release
+          }
+          INTERNAL_EOF
+          cat /tmp/signing.gradle >> app/build.gradle
       - name: build
         run: chmod +x gradlew && ./gradlew assembleRelease --no-daemon 2>&1 | tail -50
       - name: find
