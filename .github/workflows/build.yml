@@ -20,8 +20,8 @@ jobs:
         run: yes | sdkmanager --licenses > /dev/null
       - name: keystore
         run: |
-          mkdir -p app/keystore
-          keytool -genkey -v -keystore app/keystore/debug.keystore -storepass android -keypass android -alias androiddebugkey -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -keysize 2048 -validity 10000
+          mkdir -p keystore
+          keytool -genkey -v -keystore keystore/debug.keystore -storepass android -keypass android -alias androiddebugkey -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -keysize 2048 -validity 10000
       - name: signing
         run: |
           # 找到 android { } 块的结束行号（"^}" 那一行）
@@ -33,7 +33,7 @@ jobs:
           cat >> /tmp/new.gradle << 'INTERNAL_EOF'
               signingConfigs {
                   release {
-                      storeFile file('../keystore/debug.keystore')
+                      storeFile rootProject.file('keystore/debug.keystore')
                       storePassword 'android'
                       keyAlias 'androiddebugkey'
                       keyPassword 'android'
