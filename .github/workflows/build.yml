@@ -1,0 +1,82 @@
+name: Build 老君音乐 APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build.yml'
+      - 'app/build.gradle'
+      - 'app/src/main/AndroidManifest.xml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 设置 Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: '11076708'
+
+      - name: 接受 license
+        run: |
+          yes | sdkmanager --licenses > /dev/null
+
+      - name: 生成 debug keystore
+        run: |
+          mkdir -p app/keystore
+          keytool -genkey -v \
+            -keystore app/keystore/debug.keystore \
+            -storepass android -keypass android \
+            -alias androiddebugkey \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA -keysize 2048 -validity 10000
+
+      - name: 配置 signing
+        run: |
+          cat >> app/build.gradle << 'EOF'
+
+android.signingConfigs {
+    release {
+        storeFile file('../keystore/debug.keystore')
+        storePassword 'android'
+        keyAlias 'androiddebugkey'
+        keyPassword 'android'
+    }
+}
+
+android.buildTypes.release {
+    signingConfig android.signingConfigs.release
+}
+EOF
+
+      - name: Gradle build
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon 2>&1 | tail -30
+
+      - name: 查找 APK
+        id: find
+        run: |
+          find app/build/outputs -name "*.apk" -type f
+
+      - name: 上传 artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: laojun-music-apk
+          path: |
+            app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 30
