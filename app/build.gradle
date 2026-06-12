@@ -18,8 +18,8 @@ plugins {
 
 def twaManifest = [
     applicationId: 'com.myrte.musicmanager',
-    hostName: 'mx.7lzh.com',
-    hostPort: '4343', // Port for the TWA (non-standard).
+    hostName: 'pa.7lzh.com',
+    // hostPort: '',
     launchUrl: '/library/', // The start path for the TWA. Must be relative to the domain.
     name: '老君音乐', // The application name.
     launcherName: '老君音乐', // The name shown on the Android Launcher.
@@ -71,7 +71,7 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS to open the Web version of the PWA instead of the TWA, as it
             // will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://mx.7lzh.com:4343/static/manifest.json'
+            resValue "string", "webManifestUrl", 'https://pa.7lzh.com/static/manifest.json'
         
 
         
