@@ -17,7 +17,7 @@
      application, the package attribute will need to reflect the correct path in order to use
      the abbreviated format. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mywebsite.twa">
+    package="com.myrte.musicmanager">
 
     <application
         android:name="Application"

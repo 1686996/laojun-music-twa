@@ -48,11 +48,12 @@ def twaManifest = [
 ]
 
 android {
-    compileSdkVersion 32
+    namespace 'com.myrte.musicmanager'
+    compileSdkVersion 33
     defaultConfig {
-        applicationId "com.mywebsite.twa"
+        applicationId "com.myrte.musicmanager"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0.0.0"
 

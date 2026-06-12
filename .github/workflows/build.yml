@@ -11,11 +11,11 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '11'
+          java-version: '17'
       - name: android-sdk
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: '10406996'  # 兼容 JDK 11
+          cmdline-tools-version: '11076708'
       - name: licenses
         run: yes | sdkmanager --licenses > /dev/null
       - name: keystore
