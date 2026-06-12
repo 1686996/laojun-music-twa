@@ -1,13 +1,9 @@
 name: Build 老君音乐 APK
 
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
-    paths:
-      - '.github/workflows/build.yml'
-      - 'app/build.gradle'
-      - 'app/src/main/AndroidManifest.xml'
+  workflow_dispatch:
 
 jobs:
   build:
