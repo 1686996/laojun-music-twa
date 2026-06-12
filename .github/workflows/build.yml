@@ -15,7 +15,7 @@ jobs:
       - name: android-sdk
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: '11076708'
+          cmdline-tools-version: '10406996'  # 兼容 JDK 11
       - name: licenses
         run: yes | sdkmanager --licenses > /dev/null
       - name: keystore
