@@ -38,3 +38,4 @@ google-services.json
 # Secrets
 *config.xml
 app/gradle.propertieskeystore/
+icon_*.png

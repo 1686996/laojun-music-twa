@@ -18,7 +18,8 @@ plugins {
 
 def twaManifest = [
     applicationId: 'com.myrte.musicmanager',
-    hostName: 'mx.7lzh.com', // The domain being opened in the TWA.
+    hostName: 'mx.7lzh.com',
+    hostPort: '4343', // Port for the TWA (non-standard).
     launchUrl: '/library/', // The start path for the TWA. Must be relative to the domain.
     name: '老君音乐', // The application name.
     launcherName: '老君音乐', // The name shown on the Android Launcher.
@@ -27,7 +28,7 @@ def twaManifest = [
     navigationColorDark: '#59cb06', // The color used for the dark navbar.
     navigationDividerColor: '#59cb06', // The navbar divider color.
     navigationDividerColorDark: '#59cb06', // The dark navbar divider color.
-    backgroundColor: '#0a0a0a', // The color used for the splash screen background.
+    backgroundColor: '#1a1a2e', // The color used for the splash screen background (matches theme).
     enableNotifications: false, // Set to true to enable notification delegation.
     // Every shortcut must include the following fields:
     // - name: String that will show up in the shortcut.
@@ -62,7 +63,8 @@ android {
         resValue "string", "launcherName", twaManifest.launcherName
 
         // The URL that will be used when launching the TWA from the Android Launcher
-        def launchUrl = "https://" + twaManifest.hostName + twaManifest.launchUrl
+        def port = twaManifest.containsKey("hostPort") ? ":" + twaManifest.hostPort : ""
+        def launchUrl = "https://" + twaManifest.hostName + port + twaManifest.launchUrl
         resValue "string", "launchUrl", launchUrl
 
         

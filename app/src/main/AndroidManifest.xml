@@ -129,7 +129,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https"
-                    android:host="@string/hostName"/>
+                    android:host="@string/hostName"
+                    android:port="4343"/>
             </intent-filter>
         </activity>
 
