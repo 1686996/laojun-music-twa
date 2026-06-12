@@ -48,7 +48,14 @@ jobs:
           echo '--- last 30 lines of build.gradle ---'
           tail -30 app/build.gradle
       - name: build
-        run: chmod +x gradlew && ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log | tail -200
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace > build.log 2>&1
+          echo "--- exit code $? ---"
+          echo "--- last 100 lines ---"
+          tail -100 build.log
+          echo "--- find errors ---"
+          grep -E "(error|FAILURE|Compilation|Where:|What went wrong)" build.log | head -20
       - name: upload-log
         if: always()
         uses: actions/upload-artifact@v4
