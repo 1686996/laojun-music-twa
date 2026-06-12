@@ -1,8 +1,10 @@
 name: Build 老君音乐 APK
+
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
