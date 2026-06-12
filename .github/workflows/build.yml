@@ -47,14 +47,14 @@ jobs:
           mv /tmp/new.gradle app/build.gradle
           echo '--- last 30 lines of build.gradle ---'
           tail -30 app/build.gradle
-      - name: debug-deps
-        run: |
-          chmod +x gradlew
-          echo "=== dependencies ==="
-          ./gradlew app:dependencies --configuration releaseCompileClasspath --no-daemon 2>&1 | head -80
-          echo "=== end deps ==="
       - name: build
         run: |
+          chmod +x gradlew
+          echo "=== app/build.gradle ==="
+          cat app/build.gradle
+          echo "=== gradle deps ==="
+          ./gradlew app:dependencies --configuration releaseCompileClasspath --no-daemon 2>&1 | tee deps.log
+          echo "=== assemble ==="
           ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
           EXIT=${PIPESTATUS[0]}
           echo "--- exit code $EXIT ---"
